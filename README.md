@@ -14,44 +14,6 @@ rebuilt every morning by GitHub Actions. It also serves as a portfolio page (edi
 4. Only `public/` (web page, MP4s, posters, `storms.json`) is uploaded to GitHub Pages.
    No data or video is ever committed to the repository.
 
-## The website: a single-screen dashboard
-
-- **Storms (left)**: active storms with intensity sparklines and basin filters, pinned storms, and
-  storms that recently ended.
-- **Stage (centre)**, four views: a WebGL **globe** (NASA Blue Marble and Black Marble, real day and
-  night), the **3D flow** video, a **track map**, and **compare** (two videos side by side).
-- **Shared timeline (bottom)**: storm lifespans, official intensity, rapid-intensification periods and
-  the 3D video window. One playhead drives everything: storm positions on the globe, the video
-  frame, the map, and every number in the inspector. Play, step an hour, change speed.
-- **Inspector (right)**: wind, 24-hour change, motion, pressure, deep and mid-level shear, humidity,
-  SST, tilt and radius of maximum wind at the playhead's hour, each with a sparkline; a live
-  checklist of conditions often linked to rapid intensification; the written summary; downloads and a
-  NASA Worldview link for the same hour.
-- **Search** (Ctrl K), **pins**, deep links (`#storm=2026_17E&view=flow`), keyboard shortcuts
-  (space, ← →, [ ], 1–4), and drawers for the season summary, archive, guide and About.
-
-## Set up (once)
-
-1. Create a **public** repository on GitHub and push these files to it.
-2. Repository **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-3. **Actions → Daily cyclone videos → Run workflow** to build the site the first time
-   (about 5–10 min per active storm). After that it runs by itself every day.
-4. The site is at `https://<your-username>.github.io/<repo-name>/`.
-5. Edit `site/config.js` with your name, links and research interests, then commit.
-
-## Settings
-
-`scripts/run_daily.py` options (edit the command in the workflow):
-
-| option | default | meaning |
-|---|---|---|
-| `--max-days` | 5 | length of each video window |
-| `--max-storms` | 12 | most storms rendered per day (strongest first) |
-| `--archive-max` | 40 | number of past storms kept on the site |
-| `--include-invests` | off | also render invest areas |
-
-Look of the videos: `CFG` at the top of `tc3d/render.py`.
-
 ## Notes
 
 - Rapid intensification is flagged only from the official intensities (increase of at least
