@@ -1,6 +1,6 @@
 # Tropical cyclones in 3D, updated daily
 
-A GitHub Pages site (https://codesofdevashish.github.io/GlobalTCView/#storm=2026_26W&view=globe) that shows a 3D flow animation for every active tropical cyclone on Earth,
+A GitHub Pages site that shows a 3D flow animation for every active tropical cyclone on Earth,
 rebuilt every morning by GitHub Actions. It also serves as a portfolio page (edit `site/config.js`).
 
 **What happens each day** (`.github/workflows/update.yml`, 06:40 UTC)
@@ -29,6 +29,28 @@ rebuilt every morning by GitHub Actions. It also serves as a portfolio page (edi
   NASA Worldview link for the same hour.
 - **Search** (Ctrl K), **pins**, deep links (`#storm=2026_17E&view=flow`), keyboard shortcuts
   (space, ← →, [ ], 1–4), and drawers for the season summary, archive, guide and About.
+
+## Set up (once)
+
+1. Create a **public** repository on GitHub and push these files to it.
+2. Repository **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+3. **Actions → Daily cyclone videos → Run workflow** to build the site the first time
+   (about 5–10 min per active storm). After that it runs by itself every day.
+4. The site is at `https://<your-username>.github.io/<repo-name>/`.
+5. Edit `site/config.js` with your name, links and research interests, then commit.
+
+## Settings
+
+`scripts/run_daily.py` options (edit the command in the workflow):
+
+| option | default | meaning |
+|---|---|---|
+| `--max-days` | 5 | length of each video window |
+| `--max-storms` | 12 | most storms rendered per day (strongest first) |
+| `--archive-max` | 40 | number of past storms kept on the site |
+| `--include-invests` | off | also render invest areas |
+
+Look of the videos: `CFG` at the top of `tc3d/render.py`.
 
 ## Notes
 

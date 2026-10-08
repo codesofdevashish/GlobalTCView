@@ -38,6 +38,9 @@ CFG = dict(
     n_seeds      = 2000, n_particles = 800,
     stream_steps = 60, stream_dt = 600.0, omega_boost = 0.15,
     vo_iso       = 3e-4, vo_iso_frac = 0.30, w_iso = -1.5,
+    orbit        = False,                # True = slowly orbiting camera; False = fixed view (clearer flow)
+    camera_elev  = 28,                   # fixed camera: height above the floor (degrees)
+    camera_azim  = -60,                  # fixed camera: direction it looks from (degrees)
     follow_storm = True, view_half = 6.0, seed_rmax = 6.0, seed_rmin_rmw = 0.8, env_frac = 0.15,
     particle_s_per_frame = 4000.0, particle_substeps = 5, trail_len = 6,
     show_basemap = True, basemap_res = "50m",
@@ -749,11 +752,14 @@ def _draw_frame(st):
     ax.set_zticks(CFG["levels"])
     ph = fr / max(_CTX["nfr"] - 1, 1); e = 0.5 - 0.5 * np.cos(np.pi * ph)
     if clean:                                           # slow, low cinematic orbit
-        ax.view_init(elev=20 - 8 * np.sin(np.pi * ph) ** 2, azim=-70 + 120 * e)
+        ax.view_init(elev=CFG["camera_elev"], azim=CFG["camera_azim"]) if not CFG["orbit"] else ax.view_init(elev=20 - 8 * np.sin(np.pi * ph) ** 2, azim=-70 + 120 * e)
         out = os.path.join(CFG["frame_dir"], f"f{fr:04d}.png")
         fig.savefig(out, facecolor="black"); plt.close(fig)
         return out
-    ax.view_init(elev=28 - 20 * np.sin(np.pi * ph) ** 2, azim=-60 + 330 * e)
+    if CFG["orbit"]:                                    # optional orbiting camera (off by default)
+        ax.view_init(elev=28 - 20 * np.sin(np.pi * ph) ** 2, azim=-60 + 330 * e)
+    else:                                               # fixed camera: only the flow moves
+        ax.view_init(elev=CFG["camera_elev"], azim=CFG["camera_azim"])
 
     cax = fig.add_axes(cb_rect)
     cb = fig.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap), cax=cax)
